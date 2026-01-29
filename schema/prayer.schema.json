@@ -1,0 +1,73 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Liturgica Prayer",
+    "type": "object",
+    "required": ["schemaVersion", "id", "title", "blocks"],
+    "properties": {
+        "schemaVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Version of the prayer schema"
+        },
+
+        "id": {
+            "type": "string",
+            "description": "Unique identifier for the prayer"
+        },
+
+        "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display title of the prayer"
+        },
+
+        "language": {
+            "type": "string",
+            "description": "Language code (e.g. en, ml)",
+            "default": "en"
+        },
+
+        "blocks": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Ordered list of prayer blocks",
+            "items": {
+                "$ref": "#/definitions/block"
+            }
+        }
+    },
+
+    "definitions": {
+        "block": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "title",
+                        "heading",
+                        "subheading",
+                        "song",
+                        "prose",
+                        "rubric",
+                        "subtext",
+                        "collapsible-block",
+                        "dynamic-block",
+                        "alternative-prayer-block"
+                    ],
+                    "description": "Semantic type of the block"
+                },
+
+                "content": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Text content of the block"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+
+    "additionalProperties": false
+}

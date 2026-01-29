@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "blocks": {
+        "heading": {
+            "label": "Heading",
+            "requiresContent": true,
+            "allowEmpty": false,
+            "description": "Main heading of a prayer"
+        },
+        "subheading": {
+            "label": "Subheading",
+            "requiresContent": true,
+            "allowEmpty": false,
+            "description": "Secondary heading within a prayer"
+        },
+        "song": {
+            "label": "Song",
+            "requiresContent": true,
+            "allowEmpty": false,
+            "description": "Chanted or sung text"
+        },
+        "prose": {
+            "label": "Prose",
+            "requiresContent": true,
+            "allowEmpty": false,
+            "description": "Spoken prayer text"
+        },
+        "rubric": {
+            "label": "Rubric",
+            "requiresContent": false,
+            "allowEmpty": true,
+            "description": "Instructional or ceremonial guidance"
+        }
+    }
+}
