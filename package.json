@@ -1,0 +1,29 @@
+{
+  "name": "liturgicaprayereditor",
+  "version": "1.0.0",
+  "description": "Liturgica Prayer Editor is a **block-based web editor** for authoring and editing prayer content in a **structured, semantic JSON format**, intended to replace Word document–based workflows currently used for Liturgica.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheParadox543/LiturgicaPrayerEditor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/TheParadox543/LiturgicaPrayerEditor/issues"
+  },
+  "homepage": "https://github.com/TheParadox543/LiturgicaPrayerEditor#readme",
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
