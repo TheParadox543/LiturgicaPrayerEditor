@@ -1,5 +1,5 @@
 import { Prayer } from "../models/Prayer";
-import blockDefinitions from "../../schema/block-definitions.json";
+import blockDefinitions from "../../../schema/block-definitions.json";
 
 export interface ValidationError {
     index: number;

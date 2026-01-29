@@ -1,29 +1,30 @@
 {
   "name": "liturgicaprayereditor",
-  "version": "1.0.0",
-  "description": "Liturgica Prayer Editor is a **block-based web editor** for authoring and editing prayer content in a **structured, semantic JSON format**, intended to replace Word document–based workflows currently used for Liturgica.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TheParadox543/LiturgicaPrayerEditor.git"
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/TheParadox543/LiturgicaPrayerEditor/issues"
-  },
-  "homepage": "https://github.com/TheParadox543/LiturgicaPrayerEditor#readme",
   "devDependencies": {
-    "@types/node": "^25.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4"
   }
 }

@@ -1,4 +1,4 @@
-import { BlockType } from "./BlockType";
+import type { BlockType } from "./BlockType";
 
 export interface Block {
     type: BlockType;
