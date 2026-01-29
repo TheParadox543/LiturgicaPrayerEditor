@@ -1,17 +1,23 @@
 {
     "version": 1,
     "blocks": {
+        "title": {
+            "label": "Title",
+            "requiresContent": true,
+            "allowEmpty": false,
+            "description": "Title of the prayer"
+        },
         "heading": {
             "label": "Heading",
             "requiresContent": true,
             "allowEmpty": false,
-            "description": "Main heading of a prayer"
+            "description": "Main headings used in prayers"
         },
         "subheading": {
             "label": "Subheading",
             "requiresContent": true,
             "allowEmpty": false,
-            "description": "Secondary heading within a prayer"
+            "description": "Secondary headings used in prayers"
         },
         "song": {
             "label": "Song",
