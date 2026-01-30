@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Prayer } from "../domain/models/Prayer";
 import type { Block } from "../domain/models/Block";
 import type { BlockType } from "../domain/models/BlockType";
@@ -23,6 +23,9 @@ export function PrayerEditor() {
     const [errors, setErrors] = useState<{ index: number; message: string }[]>(
         [],
     );
+    useEffect(() => {
+        setErrors(validatePrayer(prayer));
+    }, [prayer]);
 
     function addBlock(type: BlockType) {
         const newBlock: Block = { type };
@@ -58,18 +61,22 @@ export function PrayerEditor() {
         setPrayer({ ...prayer, blocks });
     }
 
+    function getErrorsForBlock(index: number) {
+        return errors.filter((e) => e.index === index);
+    }
+
     function runValidation() {
         setErrors(validatePrayer(prayer));
     }
 
     function saveJsonToFile() {
-        const validationErrors = validatePrayer(prayer);
-        setErrors(validationErrors);
+        // const validationErrors = validatePrayer(prayer);
+        // setErrors(validationErrors);
 
-        if (validationErrors.length > 0) {
-            alert("Cannot save JSON: validation errors exist.");
-            return;
-        }
+        // if (validationErrors.length > 0) {
+        //     alert("Cannot save JSON: validation errors exist.");
+        //     return;
+        // }
 
         const json = JSON.stringify(prayer, null, 2);
         const blob = new Blob([json], { type: "application/json" });
@@ -105,36 +112,48 @@ export function PrayerEditor() {
                 </div>
             </div>
 
-            {prayer.blocks.map((block, index) => (
-                <div
-                    key={index}
-                    style={{
-                        border: "1px solid #ccc",
-                        padding: "0.5rem",
-                        marginBottom: "0.5rem",
-                    }}
-                >
-                    <div>
-                        <strong>{block.type.toUpperCase()}</strong>
+            {prayer.blocks.map((block, index) => {
+                const blockErrors = getErrorsForBlock(index);
+                return (
+                    <div
+                        key={index}
+                        style={{
+                            border: "1px solid #ccc",
+                            padding: "0.5rem",
+                            marginBottom: "0.5rem",
+                        }}
+                    >
+                        <div>
+                            <strong>{block.type.toUpperCase()}</strong>
+                        </div>
+                        <textarea
+                            rows={3}
+                            value={block.content ?? ""}
+                            onChange={(e) =>
+                                updateBlockContent(index, e.target.value)
+                            }
+                        />
+                        {blockErrors.length > 0 && (
+                            <div style={{ color: "red", marginTop: "0.25rem" }}>
+                                {blockErrors.map((e, i) => (
+                                    <div key={i}>{e.message}</div>
+                                ))}
+                            </div>
+                        )}
+                        <div>
+                            <button onClick={() => moveBlockUp(index)}>
+                                ↑
+                            </button>
+                            <button onClick={() => moveBlockDown(index)}>
+                                ↓
+                            </button>
+                            <button onClick={() => deleteBlock(index)}>
+                                Delete
+                            </button>
+                        </div>
                     </div>
-
-                    <textarea
-                        rows={3}
-                        value={block.content ?? ""}
-                        onChange={(e) =>
-                            updateBlockContent(index, e.target.value)
-                        }
-                    />
-
-                    <div>
-                        <button onClick={() => moveBlockUp(index)}>↑</button>
-                        <button onClick={() => moveBlockDown(index)}>↓</button>
-                        <button onClick={() => deleteBlock(index)}>
-                            Delete
-                        </button>
-                    </div>
-                </div>
-            ))}
+                );
+            })}
 
             <div style={{ marginTop: "1rem" }}>
                 <button onClick={runValidation}>Validate</button>
