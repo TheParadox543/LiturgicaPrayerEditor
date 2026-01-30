@@ -1,5 +1,5 @@
 import { validatePrayer } from "./validatePrayer";
-import { Prayer } from "../models/Prayer";
+import type { Prayer } from "../models/Prayer";
 
 const prayer: Prayer = {
     schemaVersion: 1,

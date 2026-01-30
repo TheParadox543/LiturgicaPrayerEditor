@@ -1,4 +1,4 @@
-import { Prayer } from "../models/Prayer";
+import type { Prayer } from "../models/Prayer";
 import blockDefinitions from "../../../schema/block-definitions.json";
 
 export interface ValidationError {
