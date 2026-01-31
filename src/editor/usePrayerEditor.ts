@@ -176,6 +176,79 @@ export function usePrayerEditor() {
         URL.revokeObjectURL(url);
     }
 
+    function loadJsonFromFile() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "application/json,.json";
+
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const content = event.target?.result as string;
+                    const parsed = JSON.parse(content);
+
+                    let prayerToLoad: Prayer;
+
+                    // Check if it's a legacy array-based file
+                    if (Array.isArray(parsed)) {
+                        // Legacy file format - convert to new format
+                        const fileName = file.name.replace(/\.json$/i, "");
+                        const firstItem = parsed[0];
+                        const remainingItems = parsed.slice(1);
+
+                        // Map legacy type names to new schema
+                        const mapLegacyType = (type: string): BlockType => {
+                            const typeMap: Record<string, BlockType> = {
+                                song: "stanza",
+                                subtext: "cue",
+                            };
+                            return typeMap[type] || (type as BlockType);
+                        };
+
+                        prayerToLoad = {
+                            schemaVersion: 1,
+                            id: fileName,
+                            title: firstItem?.content || "Untitled Prayer",
+                            blocks: remainingItems.map((item: any) => ({
+                                type: mapLegacyType(item.type || "prose"),
+                                content: item.content || "",
+                            })),
+                        };
+                    }
+                    // Check if it's a valid new format Prayer object
+                    else if (
+                        parsed.schemaVersion &&
+                        parsed.id &&
+                        parsed.title &&
+                        Array.isArray(parsed.blocks)
+                    ) {
+                        prayerToLoad = parsed;
+                    } else {
+                        alert(
+                            "Invalid prayer JSON file. Must be either a Prayer object or a legacy array format.",
+                        );
+                        return;
+                    }
+
+                    setPrayer(prayerToLoad);
+                } catch (error) {
+                    alert(
+                        "Failed to parse JSON file. Please ensure it's a valid JSON file.",
+                    );
+                    console.error("Failed to load JSON file:", error);
+                }
+            };
+
+            reader.readAsText(file);
+        };
+
+        input.click();
+    }
+
     return {
         prayer,
         setPrayer,
@@ -194,5 +267,6 @@ export function usePrayerEditor() {
         getErrorsForBlock,
         runValidation,
         saveJsonToFile,
+        loadJsonFromFile,
     };
 }

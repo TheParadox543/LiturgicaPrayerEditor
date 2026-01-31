@@ -30,6 +30,7 @@ export function PrayerEditor() {
         getErrorsForBlock,
         runValidation,
         saveJsonToFile,
+        loadJsonFromFile,
     } = usePrayerEditor();
 
     return (
@@ -56,6 +57,12 @@ export function PrayerEditor() {
 
                 {/* Action buttons at bottom */}
                 <div className="sidebar-actions">
+                    <button
+                        onClick={loadJsonFromFile}
+                        className="action-button"
+                    >
+                        Load JSON
+                    </button>
                     <button onClick={runValidation} className="action-button">
                         Validate
                     </button>
