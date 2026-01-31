@@ -57,6 +57,7 @@
     margin-left: 250px;
     padding: 1rem;
     width: calc(100% - 250px);
+    padding-bottom: 1rem;
 }
 
 .prayer-details {
@@ -105,6 +106,83 @@
     margin-top: 0.25rem;
 }
 
+/* Mobile: Floating Action Button */
+.fab-container {
+    display: none;
+}
+
+.fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #646cff;
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab:hover {
+    background-color: #535bf2;
+}
+
+/* Mobile: Block Type Menu */
+.block-menu {
+    position: fixed;
+    bottom: 140px;
+    right: 20px;
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 999;
+}
+
+.block-menu button {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: #1a1a1a;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* Mobile: Bottom Action Bar */
+.mobile-actions {
+    display: none;
+}
+
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1a1a1a;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 998;
+}
+
+.bottom-action-bar button {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* Light mode overrides */
 @media (prefers-color-scheme: light) {
     .sidebar {
@@ -133,5 +211,49 @@
     .error-container-top,
     .block-error {
         color: #d32f2f;
+    }
+
+    .block-menu {
+        background-color: #ffffff;
+        border: 1px solid #c0c0c0;
+    }
+
+    .block-menu button {
+        background-color: #f9f9f9;
+        border: 1px solid #c0c0c0;
+    }
+
+    .bottom-action-bar {
+        background-color: #ffffff;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .bottom-action-bar button {
+        border: 1px solid #c0c0c0;
+    }
+}
+
+/* Mobile Responsive Layout */
+@media (max-width: 650px) {
+    /* Hide sidebar on mobile */
+    .sidebar {
+        display: none;
+    }
+
+    /* Full width content on mobile */
+    .content-area {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 80px; /* Space for bottom action bar */
+    }
+
+    /* Show floating action button */
+    .fab-container {
+        display: block;
+    }
+
+    /* Show bottom action bar */
+    .mobile-actions {
+        display: block;
     }
 }

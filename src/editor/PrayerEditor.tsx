@@ -25,6 +25,9 @@ export function PrayerEditor() {
     const [errors, setErrors] = useState<{ index: number; message: string }[]>(
         [],
     );
+
+    const [showBlockMenu, setShowBlockMenu] = useState(false);
+
     useEffect(() => {
         setErrors(validatePrayer(prayer));
     }, [prayer]);
@@ -226,6 +229,41 @@ export function PrayerEditor() {
                         </ul>
                     </div>
                 )}
+            </div>
+
+            {/* Mobile: Floating Action Button */}
+            <div className="fab-container">
+                <button
+                    className="fab"
+                    onClick={() => setShowBlockMenu(!showBlockMenu)}
+                    aria-label="Add block"
+                >
+                    +
+                </button>
+
+                {showBlockMenu && (
+                    <div className="block-menu">
+                        {BLOCK_TYPES.map((type) => (
+                            <button
+                                key={type}
+                                onClick={() => {
+                                    addBlock(type);
+                                    setShowBlockMenu(false);
+                                }}
+                            >
+                                + {type}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {/* Mobile: Bottom Action Bar */}
+            <div className="mobile-actions">
+                <div className="bottom-action-bar">
+                    <button onClick={runValidation}>Validate</button>
+                    <button onClick={saveJsonToFile}>Save JSON</button>
+                </div>
             </div>
         </div>
     );
