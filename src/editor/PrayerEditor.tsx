@@ -27,6 +27,9 @@ export function PrayerEditor() {
     );
 
     const [showBlockMenu, setShowBlockMenu] = useState(false);
+    const [selectedBlockIndex, setSelectedBlockIndex] = useState<number | null>(
+        null,
+    );
 
     useEffect(() => {
         setErrors(validatePrayer(prayer));
@@ -34,10 +37,22 @@ export function PrayerEditor() {
 
     function addBlock(type: BlockType) {
         const newBlock: Block = { type };
+        const blocks = [...prayer.blocks];
+
+        // If a block is selected, insert after it; otherwise add at the end
+        const insertIndex =
+            selectedBlockIndex !== null
+                ? selectedBlockIndex + 1
+                : blocks.length;
+        blocks.splice(insertIndex, 0, newBlock);
+
         setPrayer({
             ...prayer,
-            blocks: [...prayer.blocks, newBlock],
+            blocks,
         });
+
+        // Update selected index to the newly added block
+        setSelectedBlockIndex(insertIndex);
     }
 
     function updateBlockContent(index: number, content: string) {
@@ -50,6 +65,13 @@ export function PrayerEditor() {
         const blocks = [...prayer.blocks];
         blocks.splice(index, 1);
         setPrayer({ ...prayer, blocks });
+
+        // Update selected index after deletion
+        if (selectedBlockIndex === index) {
+            setSelectedBlockIndex(null);
+        } else if (selectedBlockIndex !== null && selectedBlockIndex > index) {
+            setSelectedBlockIndex(selectedBlockIndex - 1);
+        }
     }
 
     function moveBlockUp(index: number) {
@@ -57,6 +79,13 @@ export function PrayerEditor() {
         const blocks = [...prayer.blocks];
         [blocks[index - 1], blocks[index]] = [blocks[index], blocks[index - 1]];
         setPrayer({ ...prayer, blocks });
+
+        // Update selected index if the moved block was selected
+        if (selectedBlockIndex === index) {
+            setSelectedBlockIndex(index - 1);
+        } else if (selectedBlockIndex === index - 1) {
+            setSelectedBlockIndex(index);
+        }
     }
 
     function moveBlockDown(index: number) {
@@ -64,6 +93,13 @@ export function PrayerEditor() {
         const blocks = [...prayer.blocks];
         [blocks[index], blocks[index + 1]] = [blocks[index + 1], blocks[index]];
         setPrayer({ ...prayer, blocks });
+
+        // Update selected index if the moved block was selected
+        if (selectedBlockIndex === index) {
+            setSelectedBlockIndex(index + 1);
+        } else if (selectedBlockIndex === index + 1) {
+            setSelectedBlockIndex(index);
+        }
     }
 
     function getErrorsForBlock(index: number) {
@@ -183,8 +219,13 @@ export function PrayerEditor() {
 
                 {prayer.blocks.map((block, index) => {
                     const blockErrors = getErrorsForBlock(index);
+                    const isSelected = selectedBlockIndex === index;
                     return (
-                        <div key={index} className="block-container">
+                        <div
+                            key={index}
+                            className={`block-container ${isSelected ? "selected" : ""}`}
+                            onClick={() => setSelectedBlockIndex(index)}
+                        >
                             <div>
                                 <strong>{block.type.toUpperCase()}</strong>
                             </div>
@@ -194,6 +235,7 @@ export function PrayerEditor() {
                                 onChange={(e) =>
                                     updateBlockContent(index, e.target.value)
                                 }
+                                onFocus={() => setSelectedBlockIndex(index)}
                             />
                             {blockErrors.length > 0 && (
                                 <div className="block-error">

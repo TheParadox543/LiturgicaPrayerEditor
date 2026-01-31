@@ -89,6 +89,17 @@
     background-color: #1a1a1a;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.block-container:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.block-container.selected {
+    border: 2px solid #646cff;
+    border-left: 4px solid #646cff;
 }
 
 .block-container textarea {
@@ -201,6 +212,15 @@
     .block-container {
         background-color: #f9f9f9;
         border: 1px solid #e0e0e0;
+    }
+
+    .block-container:hover {
+        border-color: #b0b0b0;
+    }
+
+    .block-container.selected {
+        border: 2px solid #646cff;
+        border-left: 4px solid #646cff;
     }
 
     .block-container button {
