@@ -4,13 +4,38 @@ import type { Block } from "../domain/models/Block";
 import type { BlockType } from "../domain/models/BlockType";
 import { validatePrayer } from "../domain/validation/validatePrayer";
 
-export function usePrayerEditor() {
-    const [prayer, setPrayer] = useState<Prayer>({
+const DRAFT_KEY = "liturgica-prayer-editor-draft";
+
+const getInitialPrayer = (): Prayer => {
+    try {
+        const savedDraft = localStorage.getItem(DRAFT_KEY);
+        if (savedDraft) {
+            const parsed = JSON.parse(savedDraft);
+            // Validate that it has the required structure
+            if (
+                parsed.schemaVersion &&
+                parsed.id &&
+                parsed.title &&
+                Array.isArray(parsed.blocks)
+            ) {
+                return parsed;
+            }
+        }
+    } catch (error) {
+        console.error("Failed to load draft from localStorage:", error);
+    }
+
+    // Return default prayer if no valid draft exists
+    return {
         schemaVersion: 1,
         id: "testPrayer",
         title: "Test Prayer",
         blocks: [],
-    });
+    };
+};
+
+export function usePrayerEditor() {
+    const [prayer, setPrayer] = useState<Prayer>(getInitialPrayer);
 
     const [errors, setErrors] = useState<{ index: number; message: string }[]>(
         [],
@@ -22,8 +47,18 @@ export function usePrayerEditor() {
     );
     const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+    // Validate prayer whenever it changes
     useEffect(() => {
         setErrors(validatePrayer(prayer));
+    }, [prayer]);
+
+    // Save draft to localStorage whenever prayer changes
+    useEffect(() => {
+        try {
+            localStorage.setItem(DRAFT_KEY, JSON.stringify(prayer));
+        } catch (error) {
+            console.error("Failed to save draft to localStorage:", error);
+        }
     }, [prayer]);
 
     function addBlock(type: BlockType) {
@@ -117,7 +152,16 @@ export function usePrayerEditor() {
     }
 
     function saveJsonToFile() {
-        const json = JSON.stringify(prayer, null, 2);
+        // Create a cleaned version of the prayer with trimmed block content
+        const cleanedPrayer: Prayer = {
+            ...prayer,
+            blocks: prayer.blocks.map((block) => ({
+                ...block,
+                content: block.content?.trim(),
+            })),
+        };
+
+        const json = JSON.stringify(cleanedPrayer, null, 2);
         const blob = new Blob([json], { type: "application/json" });
         const url = URL.createObjectURL(blob);
 
