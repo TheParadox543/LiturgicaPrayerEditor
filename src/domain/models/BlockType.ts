@@ -1,1 +1,1 @@
-export type BlockType = "title" | "heading" | "subheading" | "song" | "prose" | "rubric";
+export type BlockType = "title" | "heading" | "subheading" | "stanza" | "prose" | "rubric" | "cue";

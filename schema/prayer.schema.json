@@ -48,10 +48,10 @@
                         "title",
                         "heading",
                         "subheading",
-                        "song",
+                        "stanza",
                         "prose",
                         "rubric",
-                        "subtext",
+                        "cue",
                         "collapsible-block",
                         "dynamic-block",
                         "alternative-prayer-block"

@@ -7,15 +7,16 @@ import { validatePrayer } from "../domain/validation/validatePrayer";
 const BLOCK_TYPES: BlockType[] = [
     "heading",
     "subheading",
-    "song",
+    "stanza",
     "prose",
     "rubric",
+    "cue",
 ];
 
 export function PrayerEditor() {
     const [prayer, setPrayer] = useState<Prayer>({
         schemaVersion: 1,
-        id: "test-prayer",
+        id: "testPrayer",
         title: "Test Prayer",
         blocks: [],
     });

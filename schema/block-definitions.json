@@ -4,38 +4,37 @@
         "title": {
             "label": "Title",
             "requiresContent": true,
-            "allowEmpty": false,
             "description": "Title of the prayer"
         },
         "heading": {
             "label": "Heading",
             "requiresContent": true,
-            "allowEmpty": false,
             "description": "Main headings used in prayers"
         },
         "subheading": {
             "label": "Subheading",
             "requiresContent": true,
-            "allowEmpty": false,
             "description": "Secondary headings used in prayers"
         },
-        "song": {
-            "label": "Song",
+        "stanza": {
+            "label": "Stanza",
             "requiresContent": true,
-            "allowEmpty": false,
             "description": "Chanted or sung text"
         },
         "prose": {
             "label": "Prose",
             "requiresContent": true,
-            "allowEmpty": false,
             "description": "Spoken prayer text"
         },
         "rubric": {
             "label": "Rubric",
-            "requiresContent": false,
-            "allowEmpty": true,
+            "requiresContent": true,
             "description": "Instructional or ceremonial guidance"
+        },
+        "cue": {
+            "label": "Cue",
+            "requiresContent": true,
+            "description": "Cue for the priests or laity"
         }
     }
 }
