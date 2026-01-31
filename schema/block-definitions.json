@@ -4,17 +4,20 @@
         "title": {
             "label": "Title",
             "requiresContent": true,
-            "description": "Title of the prayer"
+            "description": "Title of the prayer",
+            "maxLines": 1
         },
         "heading": {
             "label": "Heading",
             "requiresContent": true,
-            "description": "Main headings used in prayers"
+            "description": "Main headings used in prayers",
+            "maxLines": 1
         },
         "subheading": {
             "label": "Subheading",
             "requiresContent": true,
-            "description": "Secondary headings used in prayers"
+            "description": "Secondary headings used in prayers",
+            "maxLines": 1
         },
         "stanza": {
             "label": "Stanza",
@@ -34,7 +37,8 @@
         "cue": {
             "label": "Cue",
             "requiresContent": true,
-            "description": "Cue for the priests or laity"
+            "description": "Cue for the priests or laity",
+            "maxLines": 1
         }
     }
 }

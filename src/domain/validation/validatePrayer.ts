@@ -34,6 +34,20 @@ export function validatePrayer(prayer: Prayer): ValidationError[] {
                     message: `${def.label} block requires content`,
                 });
             }
+            if (
+                "maxLines" in def &&
+                def.maxLines !== undefined &&
+                block.content
+            ) {
+                const lines = block.content.split("\n");
+
+                if (lines.length > def.maxLines) {
+                    errors.push({
+                        index,
+                        message: `${def.label} must not exceed ${def.maxLines} line(s)`,
+                    });
+                }
+            }
         }
     });
 
