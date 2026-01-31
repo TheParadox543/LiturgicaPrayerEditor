@@ -49,6 +49,20 @@ export function validatePrayer(prayer: Prayer): ValidationError[] {
                 }
             }
         }
+
+        if (index === 0 && def.position?.allowAsFirst === false) {
+            errors.push({
+                index,
+                message: `${def.label} cannot be the first block of a prayer`,
+            });
+        }
+
+        if (index === prayer.blocks.length - 1 && def.position?.allowAsLast === false) {
+            errors.push({
+                index,
+                message: `${def.label} cannot be the last block of a prayer`,
+            });
+        }
     });
 
     return errors;

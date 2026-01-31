@@ -45,7 +45,6 @@
                 "type": {
                     "type": "string",
                     "enum": [
-                        "title",
                         "heading",
                         "subheading",
                         "stanza",

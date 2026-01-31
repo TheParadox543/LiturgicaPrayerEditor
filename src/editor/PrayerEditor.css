@@ -83,6 +83,17 @@
     margin-top: 1rem;
 }
 
+.error-container-top li {
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.error-container-top li:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+}
+
 /* Block Styles */
 .block-container {
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -234,6 +245,10 @@
     .error-container-top,
     .block-error {
         color: #d32f2f;
+    }
+
+    .error-container-top li:hover {
+        background-color: rgba(211, 47, 47, 0.1);
     }
 
     .block-menu {

@@ -32,7 +32,6 @@ export function PrayerEditor() {
         saveJsonToFile,
     } = usePrayerEditor();
 
-    const globalErrors = errors.filter((e) => e.index === -1);
     return (
         <div className="prayer-editor-container">
             {/* Left Sidebar - Fixed position */}
@@ -107,11 +106,38 @@ export function PrayerEditor() {
                     </div>
                 </div>
 
-                {globalErrors.length > 0 && (
-                    <div className="error-container">
-                        {globalErrors.map((e, i) => (
-                            <div key={i}>{e.message}</div>
-                        ))}
+                {errors.length > 0 && (
+                    <div className="error-container-top">
+                        <h4>Validation Errors</h4>
+                        <ul>
+                            {errors.map((e, i) => (
+                                <li
+                                    key={i}
+                                    onClick={() => {
+                                        if (e.index === -1) {
+                                            window.scrollTo({
+                                                top: 0,
+                                                behavior: "smooth",
+                                            });
+                                        } else {
+                                            blockRefs.current[
+                                                e.index
+                                            ]?.scrollIntoView({
+                                                behavior: "smooth",
+                                                block: "center",
+                                            });
+                                            setSelectedBlockIndex(e.index);
+                                        }
+                                    }}
+                                    style={{ cursor: "pointer" }}
+                                >
+                                    {e.index === -1
+                                        ? "Prayer"
+                                        : `Block ${e.index + 1}`}
+                                    : {e.message}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )}
 
@@ -163,19 +189,6 @@ export function PrayerEditor() {
                         </div>
                     );
                 })}
-
-                {errors.length > 0 && (
-                    <div className="error-container-top">
-                        <h4>Validation Errors</h4>
-                        <ul>
-                            {errors.map((e, i) => (
-                                <li key={i}>
-                                    Block {e.index + 1}: {e.message}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
 
             {/* Mobile: Floating Action Button */}
