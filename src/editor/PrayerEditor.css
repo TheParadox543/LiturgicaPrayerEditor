@@ -64,13 +64,24 @@
     margin-bottom: 1rem;
 }
 
-.input-group {
-    margin-bottom: 0.5rem;
+.input-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.input-label {
+    text-align: right;
+    font-weight: 500;
 }
 
 .input-field {
-    width: 80%;
+    width: 100%;
     max-width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
 }
 
 .error-container {
@@ -122,8 +133,42 @@
     box-sizing: border-box;
 }
 
-.block-container button {
+.block-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.block-button {
+    padding: 0.5rem 1rem;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.block-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.block-button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
 }
 
 .block-error {
@@ -237,8 +282,25 @@
         border-left: 4px solid #646cff;
     }
 
-    .block-container button {
+    .block-button {
         border: 1px solid #c0c0c0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .block-button:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        border-color: #a0a0a0;
+    }
+
+    .delete-button {
+        background-color: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
     }
 
     .error-container,

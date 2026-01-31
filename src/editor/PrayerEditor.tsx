@@ -72,37 +72,31 @@ export function PrayerEditor() {
                 <div className="prayer-details">
                     <h3>Prayer Details</h3>
 
-                    <div className="input-group">
-                        <label>
-                            Title:
-                            {/* <br /> */}
-                            <input
-                                type="text"
-                                value={prayer.title}
-                                onChange={(e) =>
-                                    setPrayer({
-                                        ...prayer,
-                                        title: e.target.value,
-                                    })
-                                }
-                                className="input-field"
-                            />
-                        </label>
+                    <div className="input-row">
+                        <label className="input-label">Title:</label>
+                        <input
+                            type="text"
+                            value={prayer.title}
+                            onChange={(e) =>
+                                setPrayer({
+                                    ...prayer,
+                                    title: e.target.value,
+                                })
+                            }
+                            className="input-field"
+                        />
                     </div>
 
-                    <div>
-                        <label>
-                            ID:
-                            {/* <br /> */}
-                            <input
-                                type="text"
-                                value={prayer.id}
-                                onChange={(e) =>
-                                    setPrayer({ ...prayer, id: e.target.value })
-                                }
-                                className="input-field"
-                            />
-                        </label>
+                    <div className="input-row">
+                        <label className="input-label">ID:</label>
+                        <input
+                            type="text"
+                            value={prayer.id}
+                            onChange={(e) =>
+                                setPrayer({ ...prayer, id: e.target.value })
+                            }
+                            className="input-field"
+                        />
                     </div>
                 </div>
 
@@ -175,14 +169,23 @@ export function PrayerEditor() {
                                     ))}
                                 </div>
                             )}
-                            <div>
-                                <button onClick={() => moveBlockUp(index)}>
+                            <div className="block-actions">
+                                <button
+                                    className="block-button"
+                                    onClick={() => moveBlockUp(index)}
+                                >
                                     ↑
                                 </button>
-                                <button onClick={() => moveBlockDown(index)}>
+                                <button
+                                    className="block-button"
+                                    onClick={() => moveBlockDown(index)}
+                                >
                                     ↓
                                 </button>
-                                <button onClick={() => deleteBlock(index)}>
+                                <button
+                                    className="block-button delete-button"
+                                    onClick={() => deleteBlock(index)}
+                                >
                                     Delete
                                 </button>
                             </div>
