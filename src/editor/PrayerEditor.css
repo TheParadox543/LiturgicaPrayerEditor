@@ -1,0 +1,137 @@
+/* Apply box-sizing to all elements */
+* {
+    box-sizing: border-box;
+}
+
+.prayer-editor-container {
+    min-height: 100vh;
+}
+
+/* Left Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    padding: 1rem;
+    border-right: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: #1a1a1a;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-button {
+    padding: 0.5rem;
+    cursor: pointer;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.sidebar-spacer {
+    flex: 1;
+}
+
+.sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.action-button {
+    padding: 0.5rem;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Right Content Area */
+.content-area {
+    margin-left: 250px;
+    padding: 1rem;
+    width: calc(100% - 250px);
+}
+
+.prayer-details {
+    margin-bottom: 1rem;
+}
+
+.input-group {
+    margin-bottom: 0.5rem;
+}
+
+.input-field {
+    width: 80%;
+    max-width: 100%;
+}
+
+.error-container {
+    color: #ff6b6b;
+    margin-bottom: 1rem;
+}
+
+.error-container-top {
+    color: #ff6b6b;
+    margin-top: 1rem;
+}
+
+/* Block Styles */
+.block-container {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #1a1a1a;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.block-container textarea {
+    width: 100%;
+    max-width: 100%;
+    resize: vertical;
+}
+
+.block-container button {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.block-error {
+    color: #ff6b6b;
+    margin-top: 0.25rem;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+    .sidebar {
+        background-color: #f5f5f5;
+        border-right: 2px solid #e0e0e0;
+    }
+
+    .sidebar-button {
+        border: 1px solid #c0c0c0;
+    }
+
+    .action-button {
+        border: 1px solid #c0c0c0;
+    }
+
+    .block-container {
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+    }
+
+    .block-container button {
+        border: 1px solid #c0c0c0;
+    }
+
+    .error-container,
+    .error-container-top,
+    .block-error {
+        color: #d32f2f;
+    }
+}
