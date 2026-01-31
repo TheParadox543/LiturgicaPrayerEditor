@@ -93,9 +93,52 @@ export function PrayerEditor() {
         URL.revokeObjectURL(url);
     }
 
+    const globalErrors = errors.filter((e) => e.index === -1);
     return (
         <div style={{ padding: "1rem" }}>
             <h2>Prayer Editor</h2>
+
+            <div style={{ marginBottom: "1rem" }}>
+                <h3>Prayer Details</h3>
+
+                <div style={{ marginBottom: "0.5rem" }}>
+                    <label>
+                        Title:
+                        {/* <br /> */}
+                        <input
+                            type="text"
+                            value={prayer.title}
+                            onChange={(e) =>
+                                setPrayer({ ...prayer, title: e.target.value })
+                            }
+                            style={{ width: "80%" }}
+                        />
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        ID:
+                        {/* <br /> */}
+                        <input
+                            type="text"
+                            value={prayer.id}
+                            onChange={(e) =>
+                                setPrayer({ ...prayer, id: e.target.value })
+                            }
+                            style={{ width: "80%" }}
+                        />
+                    </label>
+                </div>
+            </div>
+
+            {globalErrors.length > 0 && (
+                <div style={{ color: "red", marginBottom: "1rem" }}>
+                    {globalErrors.map((e, i) => (
+                        <div key={i}>{e.message}</div>
+                    ))}
+                </div>
+            )}
 
             <div style={{ marginBottom: "1rem" }}>
                 <strong>Add block:</strong>

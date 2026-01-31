@@ -9,6 +9,13 @@ export interface ValidationError {
 export function validatePrayer(prayer: Prayer): ValidationError[] {
     const errors: ValidationError[] = [];
 
+    if (!/^[a-z][a-zA-Z0-9]*$/.test(prayer.id)) {
+        errors.push({
+            index: -1,
+            message: "Prayer ID must be camelCase and start with a letter",
+        });
+    }
+
     prayer.blocks.forEach((block, index) => {
         const def = blockDefinitions.blocks[block.type];
 
