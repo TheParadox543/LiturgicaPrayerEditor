@@ -31,6 +31,7 @@ export function PrayerEditor() {
         moveBlockUp,
         moveBlockDown,
         getErrorsForBlock,
+        getErrorsForNestedBlock,
         runValidation,
         saveJsonToFile,
         loadJsonFromFile,
@@ -129,7 +130,10 @@ export function PrayerEditor() {
                                                 top: 0,
                                                 behavior: "smooth",
                                             });
-                                        } else {
+                                        } else if (
+                                            e.nestedIndex !== undefined
+                                        ) {
+                                            // Navigate to nested block
                                             blockRefs.current[
                                                 e.index
                                             ]?.scrollIntoView({
@@ -137,13 +141,28 @@ export function PrayerEditor() {
                                                 block: "center",
                                             });
                                             setSelectedBlockIndex(e.index);
+                                            setSelectedNestedIndex(
+                                                e.nestedIndex,
+                                            );
+                                        } else {
+                                            // Navigate to parent block
+                                            blockRefs.current[
+                                                e.index
+                                            ]?.scrollIntoView({
+                                                behavior: "smooth",
+                                                block: "center",
+                                            });
+                                            setSelectedBlockIndex(e.index);
+                                            setSelectedNestedIndex(null);
                                         }
                                     }}
                                     style={{ cursor: "pointer" }}
                                 >
                                     {e.index === -1
                                         ? "Prayer"
-                                        : `Block ${e.index + 1}`}
+                                        : e.nestedIndex !== undefined
+                                          ? `Block ${e.index + 1} > Item ${e.nestedIndex + 1}`
+                                          : `Block ${e.index + 1}`}
                                     : {e.message}
                                 </li>
                             ))}
@@ -243,6 +262,21 @@ export function PrayerEditor() {
                                                         )
                                                     }
                                                 />
+                                                {getErrorsForNestedBlock(
+                                                    index,
+                                                    nestedIndex,
+                                                ).length > 0 && (
+                                                    <div className="block-error">
+                                                        {getErrorsForNestedBlock(
+                                                            index,
+                                                            nestedIndex,
+                                                        ).map((e, i) => (
+                                                            <div key={i}>
+                                                                {e.message}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
                                                 <div className="block-actions">
                                                     <button
                                                         className="block-button"

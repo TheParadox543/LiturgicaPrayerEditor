@@ -2,7 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import type { Prayer } from "../domain/models/Prayer";
 import type { Block } from "../domain/models/Block";
 import type { BlockType } from "../domain/models/BlockType";
-import { validatePrayer } from "../domain/validation/validatePrayer";
+import {
+    validatePrayer,
+    type ValidationError,
+} from "../domain/validation/validatePrayer";
 import blockDefinitions from "../../schema/block-definitions.json";
 
 const DRAFT_KEY = "liturgica-prayer-editor-draft";
@@ -45,9 +48,7 @@ const getInitialPrayer = (): Prayer => {
 export function usePrayerEditor() {
     const [prayer, setPrayer] = useState<Prayer>(getInitialPrayer);
 
-    const [errors, setErrors] = useState<{ index: number; message: string }[]>(
-        [],
-    );
+    const [errors, setErrors] = useState<ValidationError[]>([]);
 
     const [showBlockMenu, setShowBlockMenu] = useState(false);
     const [selectedBlockIndex, setSelectedBlockIndex] = useState<number | null>(
@@ -157,7 +158,15 @@ export function usePrayerEditor() {
     }
 
     function getErrorsForBlock(index: number) {
-        return errors.filter((e) => e.index === index);
+        return errors.filter(
+            (e) => e.index === index && e.nestedIndex === undefined,
+        );
+    }
+
+    function getErrorsForNestedBlock(index: number, nestedIndex: number) {
+        return errors.filter(
+            (e) => e.index === index && e.nestedIndex === nestedIndex,
+        );
     }
 
     function runValidation() {
@@ -365,6 +374,7 @@ export function usePrayerEditor() {
         moveBlockUp,
         moveBlockDown,
         getErrorsForBlock,
+        getErrorsForNestedBlock,
         runValidation,
         saveJsonToFile,
         loadJsonFromFile,
