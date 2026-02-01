@@ -58,6 +58,9 @@ export function usePrayerEditor() {
         number | null
     >(null);
     const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const nestedBlockRefs = useRef<Map<string, HTMLDivElement | null>>(
+        new Map(),
+    );
 
     // Validate prayer whenever it changes
     useEffect(() => {
@@ -183,9 +186,32 @@ export function usePrayerEditor() {
         }
 
         const newBlock: Block = { type };
-        parentBlock.items.push(newBlock);
+
+        // If a nested block is selected, insert after it; otherwise add at the end
+        const insertIndex =
+            selectedNestedIndex !== null
+                ? selectedNestedIndex + 1
+                : parentBlock.items.length;
+
+        parentBlock.items.splice(insertIndex, 0, newBlock);
 
         setPrayer({ ...prayer, blocks });
+
+        // Update selection to the newly added nested block
+        setSelectedBlockIndex(parentIndex);
+        setSelectedNestedIndex(insertIndex);
+
+        // Scroll to the newly added nested block after a short delay
+        setTimeout(() => {
+            const nestedKey = `${parentIndex}-${insertIndex}`;
+            const nestedElement = nestedBlockRefs.current.get(nestedKey);
+            if (nestedElement) {
+                nestedElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }
+        }, 100);
     }
 
     function updateNestedBlockContent(
@@ -367,6 +393,7 @@ export function usePrayerEditor() {
         selectedNestedIndex,
         setSelectedNestedIndex,
         blockRefs,
+        nestedBlockRefs,
         addBlock,
         updateBlockContent,
         autoResizeTextarea,

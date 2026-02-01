@@ -24,6 +24,7 @@ export function PrayerEditor() {
         selectedNestedIndex,
         setSelectedNestedIndex,
         blockRefs,
+        nestedBlockRefs,
         addBlock,
         updateBlockContent,
         autoResizeTextarea,
@@ -43,17 +44,65 @@ export function PrayerEditor() {
         moveNestedBlockDown,
     } = usePrayerEditor();
 
+    // Determine which block types to show based on selection
+    const getAvailableBlockTypes = (): BlockType[] => {
+        // If nested block is selected, show parent's allowed items
+        if (selectedNestedIndex !== null && selectedBlockIndex !== null) {
+            const parentBlock = prayer.blocks[selectedBlockIndex];
+            const parentDef = getBlockDefinition(parentBlock.type);
+            return ((parentDef as any)?.allowedItems ||
+                BLOCK_TYPES) as BlockType[];
+        }
+        // If parent collapsible block is selected, show its allowed items
+        if (selectedBlockIndex !== null) {
+            const block = prayer.blocks[selectedBlockIndex];
+            const blockDef = getBlockDefinition(block.type);
+            if (blockDef?.requiresContent === false) {
+                return ((blockDef as any)?.allowedItems ||
+                    BLOCK_TYPES) as BlockType[];
+            }
+        }
+        return BLOCK_TYPES;
+    };
+
+    const availableBlockTypes = getAvailableBlockTypes();
+    const isAddingToNested =
+        selectedNestedIndex !== null ||
+        (selectedBlockIndex !== null &&
+            !getBlockDefinition(prayer.blocks[selectedBlockIndex]?.type)
+                ?.requiresContent);
+
+    const handleAddBlock = (type: BlockType) => {
+        if (isAddingToNested && selectedBlockIndex !== null) {
+            addNestedBlock(selectedBlockIndex, type);
+        } else {
+            addBlock(type);
+        }
+    };
+
     return (
         <div className="prayer-editor-container">
             {/* Left Sidebar - Fixed position */}
             <div className="sidebar">
                 <div>
                     <h3>Add Block</h3>
+                    {isAddingToNested && selectedBlockIndex !== null && (
+                        <p
+                            style={{
+                                fontSize: "0.85rem",
+                                opacity: 0.7,
+                                marginTop: "0.25rem",
+                                marginBottom: "0.5rem",
+                            }}
+                        >
+                            Adding to Block {selectedBlockIndex + 1}
+                        </p>
+                    )}
                     <div className="sidebar-buttons-container">
-                        {BLOCK_TYPES.map((type) => (
+                        {availableBlockTypes.map((type) => (
                             <button
                                 key={type}
-                                onClick={() => addBlock(type)}
+                                onClick={() => handleAddBlock(type)}
                                 className="sidebar-button"
                             >
                                 + {type}
@@ -215,6 +264,19 @@ export function PrayerEditor() {
                                         (nestedBlock, nestedIndex) => (
                                             <div
                                                 key={nestedIndex}
+                                                ref={(el) => {
+                                                    const key = `${index}-${nestedIndex}`;
+                                                    if (el) {
+                                                        nestedBlockRefs.current.set(
+                                                            key,
+                                                            el,
+                                                        );
+                                                    } else {
+                                                        nestedBlockRefs.current.delete(
+                                                            key,
+                                                        );
+                                                    }
+                                                }}
                                                 className={`nested-block-container ${
                                                     selectedBlockIndex ===
                                                         index &&
@@ -318,27 +380,6 @@ export function PrayerEditor() {
                                             </div>
                                         ),
                                     )}
-
-                                    {/* Add nested block buttons */}
-                                    <div className="nested-block-add-buttons">
-                                        {(blockDef as any)?.allowedItems?.map(
-                                            (allowedType: string) => (
-                                                <button
-                                                    key={allowedType}
-                                                    className="sidebar-button"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        addNestedBlock(
-                                                            index,
-                                                            allowedType as BlockType,
-                                                        );
-                                                    }}
-                                                >
-                                                    + {allowedType}
-                                                </button>
-                                            ),
-                                        )}
-                                    </div>
                                 </div>
                             )}
 
