@@ -9,6 +9,7 @@ const BLOCK_TYPES: BlockType[] = [
     "prose",
     "rubric",
     "cue",
+    "collapsible-block",
 ];
 
 export function PrayerEditor() {
@@ -31,6 +32,12 @@ export function PrayerEditor() {
         runValidation,
         saveJsonToFile,
         loadJsonFromFile,
+        getBlockDefinition,
+        addNestedBlock,
+        updateNestedBlockContent,
+        deleteNestedBlock,
+        moveNestedBlockUp,
+        moveNestedBlockDown,
     } = usePrayerEditor();
 
     return (
@@ -145,6 +152,9 @@ export function PrayerEditor() {
                 {prayer.blocks.map((block, index) => {
                     const blockErrors = getErrorsForBlock(index);
                     const isSelected = selectedBlockIndex === index;
+                    const blockDef = getBlockDefinition(block.type);
+                    const requiresContent = blockDef?.requiresContent !== false;
+
                     return (
                         <div
                             key={index}
@@ -157,18 +167,126 @@ export function PrayerEditor() {
                             <div>
                                 <strong>{block.type.toUpperCase()}</strong>
                             </div>
-                            <textarea
-                                ref={(el) => autoResizeTextarea(el)}
-                                value={block.content ?? ""}
-                                onChange={(e) => {
-                                    updateBlockContent(index, e.target.value);
-                                    autoResizeTextarea(e.target);
-                                }}
-                                onFocus={() => setSelectedBlockIndex(index)}
-                                onInput={(e) =>
-                                    autoResizeTextarea(e.currentTarget)
-                                }
-                            />
+
+                            {requiresContent ? (
+                                <textarea
+                                    ref={(el) => autoResizeTextarea(el)}
+                                    value={block.content ?? ""}
+                                    onChange={(e) => {
+                                        updateBlockContent(
+                                            index,
+                                            e.target.value,
+                                        );
+                                        autoResizeTextarea(e.target);
+                                    }}
+                                    onFocus={() => setSelectedBlockIndex(index)}
+                                    onInput={(e) =>
+                                        autoResizeTextarea(e.currentTarget)
+                                    }
+                                />
+                            ) : (
+                                <div className="nested-blocks-container">
+                                    {/* Nested blocks */}
+                                    {block.items?.map(
+                                        (nestedBlock, nestedIndex) => (
+                                            <div
+                                                key={nestedIndex}
+                                                className="nested-block-container"
+                                            >
+                                                <div>
+                                                    <strong>
+                                                        {nestedBlock.type.toUpperCase()}
+                                                    </strong>
+                                                </div>
+                                                <textarea
+                                                    ref={(el) =>
+                                                        autoResizeTextarea(el)
+                                                    }
+                                                    value={
+                                                        nestedBlock.content ??
+                                                        ""
+                                                    }
+                                                    onChange={(e) => {
+                                                        updateNestedBlockContent(
+                                                            index,
+                                                            nestedIndex,
+                                                            e.target.value,
+                                                        );
+                                                        autoResizeTextarea(
+                                                            e.target,
+                                                        );
+                                                    }}
+                                                    onInput={(e) =>
+                                                        autoResizeTextarea(
+                                                            e.currentTarget,
+                                                        )
+                                                    }
+                                                />
+                                                <div className="block-actions">
+                                                    <button
+                                                        className="block-button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            moveNestedBlockUp(
+                                                                index,
+                                                                nestedIndex,
+                                                            );
+                                                        }}
+                                                    >
+                                                        ↑
+                                                    </button>
+                                                    <button
+                                                        className="block-button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            moveNestedBlockDown(
+                                                                index,
+                                                                nestedIndex,
+                                                            );
+                                                        }}
+                                                    >
+                                                        ↓
+                                                    </button>
+                                                    <button
+                                                        className="block-button delete-button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            deleteNestedBlock(
+                                                                index,
+                                                                nestedIndex,
+                                                            );
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ),
+                                    )}
+
+                                    {/* Add nested block buttons */}
+                                    <div className="nested-block-add-buttons">
+                                        {(blockDef as any)?.allowedItems?.map(
+                                            (allowedType: string) => (
+                                                <button
+                                                    key={allowedType}
+                                                    className="sidebar-button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        addNestedBlock(
+                                                            index,
+                                                            allowedType as BlockType,
+                                                        );
+                                                    }}
+                                                >
+                                                    + {allowedType}
+                                                </button>
+                                            ),
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
                             {blockErrors.length > 0 && (
                                 <div className="block-error">
                                     {blockErrors.map((e, i) => (

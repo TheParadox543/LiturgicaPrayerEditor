@@ -57,6 +57,24 @@
                 "allowAsFirst": false,
                 "allowAsLast": true
             }
+        },
+        "collapsible-block": {
+            "label": "Collapsible Block",
+            "description": "A block that can be collapsed and expanded",
+            "requiresContent": false,
+            "allowedItems": [
+                "heading",
+                "subheading",
+                "prose",
+                "stanza",
+                "rubric",
+                "cue"
+            ],
+            "minItems": 1,
+            "position": {
+                "allowAsFirst": true,
+                "allowAsLast": true
+            }
         }
     }
 }
