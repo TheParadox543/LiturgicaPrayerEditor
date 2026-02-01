@@ -3,8 +3,16 @@ import type { Prayer } from "../domain/models/Prayer";
 import type { Block } from "../domain/models/Block";
 import type { BlockType } from "../domain/models/BlockType";
 import { validatePrayer } from "../domain/validation/validatePrayer";
+import blockDefinitions from "../../schema/block-definitions.json";
 
 const DRAFT_KEY = "liturgica-prayer-editor-draft";
+
+// Helper function to get block definition
+function getBlockDefinition(type: BlockType) {
+    return blockDefinitions.blocks[
+        type as keyof typeof blockDefinitions.blocks
+    ];
+}
 
 const getInitialPrayer = (): Prayer => {
     try {
@@ -45,6 +53,9 @@ export function usePrayerEditor() {
     const [selectedBlockIndex, setSelectedBlockIndex] = useState<number | null>(
         null,
     );
+    const [selectedNestedIndex, setSelectedNestedIndex] = useState<
+        number | null
+    >(null);
     const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // Validate prayer whenever it changes
@@ -77,8 +88,9 @@ export function usePrayerEditor() {
             blocks,
         });
 
-        // Update selected index to the newly added block
+        // Update selected index to the newly added block and clear nested selection
         setSelectedBlockIndex(insertIndex);
+        setSelectedNestedIndex(null);
 
         // Scroll to the newly added block after a short delay to ensure it's rendered
         setTimeout(() => {
@@ -110,6 +122,7 @@ export function usePrayerEditor() {
         // Update selected index after deletion
         if (selectedBlockIndex === index) {
             setSelectedBlockIndex(null);
+            setSelectedNestedIndex(null);
         } else if (selectedBlockIndex !== null && selectedBlockIndex > index) {
             setSelectedBlockIndex(selectedBlockIndex - 1);
         }
@@ -151,14 +164,98 @@ export function usePrayerEditor() {
         setErrors(validatePrayer(prayer));
     }
 
+    // Nested block functions
+    function addNestedBlock(parentIndex: number, type: BlockType) {
+        const blocks = [...prayer.blocks];
+        const parentBlock = blocks[parentIndex];
+
+        if (!parentBlock.items) {
+            parentBlock.items = [];
+        }
+
+        const newBlock: Block = { type };
+        parentBlock.items.push(newBlock);
+
+        setPrayer({ ...prayer, blocks });
+    }
+
+    function updateNestedBlockContent(
+        parentIndex: number,
+        childIndex: number,
+        content: string,
+    ) {
+        const blocks = [...prayer.blocks];
+        const parentBlock = blocks[parentIndex];
+
+        if (parentBlock.items && parentBlock.items[childIndex]) {
+            parentBlock.items[childIndex] = {
+                ...parentBlock.items[childIndex],
+                content,
+            };
+            setPrayer({ ...prayer, blocks });
+        }
+    }
+
+    function deleteNestedBlock(parentIndex: number, childIndex: number) {
+        const blocks = [...prayer.blocks];
+        const parentBlock = blocks[parentIndex];
+
+        if (parentBlock.items) {
+            parentBlock.items.splice(childIndex, 1);
+            setPrayer({ ...prayer, blocks });
+        }
+    }
+
+    function moveNestedBlockUp(parentIndex: number, childIndex: number) {
+        if (childIndex === 0) return;
+
+        const blocks = [...prayer.blocks];
+        const parentBlock = blocks[parentIndex];
+
+        if (parentBlock.items) {
+            [parentBlock.items[childIndex - 1], parentBlock.items[childIndex]] =
+                [
+                    parentBlock.items[childIndex],
+                    parentBlock.items[childIndex - 1],
+                ];
+            setPrayer({ ...prayer, blocks });
+        }
+    }
+
+    function moveNestedBlockDown(parentIndex: number, childIndex: number) {
+        const blocks = [...prayer.blocks];
+        const parentBlock = blocks[parentIndex];
+
+        if (!parentBlock.items || childIndex === parentBlock.items.length - 1)
+            return;
+
+        [parentBlock.items[childIndex], parentBlock.items[childIndex + 1]] = [
+            parentBlock.items[childIndex + 1],
+            parentBlock.items[childIndex],
+        ];
+        setPrayer({ ...prayer, blocks });
+    }
+
     function saveJsonToFile() {
+        // Helper function to recursively trim block content
+        const trimBlock = (block: Block): Block => {
+            const trimmedBlock: Block = {
+                ...block,
+                content: block.content?.trim(),
+            };
+
+            // Recursively trim nested blocks
+            if (block.items && block.items.length > 0) {
+                trimmedBlock.items = block.items.map(trimBlock);
+            }
+
+            return trimmedBlock;
+        };
+
         // Create a cleaned version of the prayer with trimmed block content
         const cleanedPrayer: Prayer = {
             ...prayer,
-            blocks: prayer.blocks.map((block) => ({
-                ...block,
-                content: block.content?.trim(),
-            })),
+            blocks: prayer.blocks.map(trimBlock),
         };
 
         const json = JSON.stringify(cleanedPrayer, null, 2);
@@ -216,6 +313,7 @@ export function usePrayerEditor() {
                             blocks: remainingItems.map((item: any) => ({
                                 type: mapLegacyType(item.type || "prose"),
                                 content: item.content || "",
+                                ...(item.items && { items: item.items }),
                             })),
                         };
                     }
@@ -257,6 +355,8 @@ export function usePrayerEditor() {
         setShowBlockMenu,
         selectedBlockIndex,
         setSelectedBlockIndex,
+        selectedNestedIndex,
+        setSelectedNestedIndex,
         blockRefs,
         addBlock,
         updateBlockContent,
@@ -268,5 +368,11 @@ export function usePrayerEditor() {
         runValidation,
         saveJsonToFile,
         loadJsonFromFile,
+        getBlockDefinition,
+        addNestedBlock,
+        updateNestedBlockContent,
+        deleteNestedBlock,
+        moveNestedBlockUp,
+        moveNestedBlockDown,
     };
 }
