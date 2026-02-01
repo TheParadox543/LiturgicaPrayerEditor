@@ -53,6 +53,9 @@ export function usePrayerEditor() {
     const [selectedBlockIndex, setSelectedBlockIndex] = useState<number | null>(
         null,
     );
+    const [selectedNestedIndex, setSelectedNestedIndex] = useState<
+        number | null
+    >(null);
     const blockRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // Validate prayer whenever it changes
@@ -85,8 +88,9 @@ export function usePrayerEditor() {
             blocks,
         });
 
-        // Update selected index to the newly added block
+        // Update selected index to the newly added block and clear nested selection
         setSelectedBlockIndex(insertIndex);
+        setSelectedNestedIndex(null);
 
         // Scroll to the newly added block after a short delay to ensure it's rendered
         setTimeout(() => {
@@ -118,6 +122,7 @@ export function usePrayerEditor() {
         // Update selected index after deletion
         if (selectedBlockIndex === index) {
             setSelectedBlockIndex(null);
+            setSelectedNestedIndex(null);
         } else if (selectedBlockIndex !== null && selectedBlockIndex > index) {
             setSelectedBlockIndex(selectedBlockIndex - 1);
         }
@@ -308,6 +313,7 @@ export function usePrayerEditor() {
                             blocks: remainingItems.map((item: any) => ({
                                 type: mapLegacyType(item.type || "prose"),
                                 content: item.content || "",
+                                ...(item.items && { items: item.items }),
                             })),
                         };
                     }
@@ -349,6 +355,8 @@ export function usePrayerEditor() {
         setShowBlockMenu,
         selectedBlockIndex,
         setSelectedBlockIndex,
+        selectedNestedIndex,
+        setSelectedNestedIndex,
         blockRefs,
         addBlock,
         updateBlockContent,

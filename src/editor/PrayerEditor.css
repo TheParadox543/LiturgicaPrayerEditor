@@ -189,6 +189,18 @@
     border-radius: 6px;
     padding: 0.75rem;
     margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.nested-block-container:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.nested-block-container.selected {
+    border: 2px solid #646cff;
+    border-left: 4px solid #646cff;
+    background-color: rgba(100, 108, 255, 0.05);
 }
 
 .nested-block-container strong {
@@ -366,6 +378,16 @@
     .nested-block-container {
         background-color: rgba(0, 0, 0, 0.02);
         border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .nested-block-container:hover {
+        border-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .nested-block-container.selected {
+        border: 2px solid #646cff;
+        border-left: 4px solid #646cff;
+        background-color: rgba(100, 108, 255, 0.08);
     }
 
     .nested-block-container strong {

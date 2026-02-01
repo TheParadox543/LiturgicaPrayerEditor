@@ -21,6 +21,8 @@ export function PrayerEditor() {
         setShowBlockMenu,
         selectedBlockIndex,
         setSelectedBlockIndex,
+        selectedNestedIndex,
+        setSelectedNestedIndex,
         blockRefs,
         addBlock,
         updateBlockContent,
@@ -162,7 +164,10 @@ export function PrayerEditor() {
                                 blockRefs.current[index] = el;
                             }}
                             className={`block-container ${isSelected ? "selected" : ""}`}
-                            onClick={() => setSelectedBlockIndex(index)}
+                            onClick={() => {
+                                setSelectedBlockIndex(index);
+                                setSelectedNestedIndex(null);
+                            }}
                         >
                             <div>
                                 <strong>{block.type.toUpperCase()}</strong>
@@ -191,7 +196,23 @@ export function PrayerEditor() {
                                         (nestedBlock, nestedIndex) => (
                                             <div
                                                 key={nestedIndex}
-                                                className="nested-block-container"
+                                                className={`nested-block-container ${
+                                                    selectedBlockIndex ===
+                                                        index &&
+                                                    selectedNestedIndex ===
+                                                        nestedIndex
+                                                        ? "selected"
+                                                        : ""
+                                                }`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedBlockIndex(
+                                                        index,
+                                                    );
+                                                    setSelectedNestedIndex(
+                                                        nestedIndex,
+                                                    );
+                                                }}
                                             >
                                                 <div>
                                                     <strong>
