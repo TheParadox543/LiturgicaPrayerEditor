@@ -46,31 +46,19 @@ export function PrayerEditor() {
 
     // Determine which block types to show based on selection
     const getAvailableBlockTypes = (): BlockType[] => {
-        // If nested block is selected, show parent's allowed items
+        // Only show nested block types if a nested item is actually selected
         if (selectedNestedIndex !== null && selectedBlockIndex !== null) {
             const parentBlock = prayer.blocks[selectedBlockIndex];
             const parentDef = getBlockDefinition(parentBlock.type);
             return ((parentDef as any)?.allowedItems ||
                 BLOCK_TYPES) as BlockType[];
         }
-        // If parent collapsible block is selected, show its allowed items
-        if (selectedBlockIndex !== null) {
-            const block = prayer.blocks[selectedBlockIndex];
-            const blockDef = getBlockDefinition(block.type);
-            if (blockDef?.requiresContent === false) {
-                return ((blockDef as any)?.allowedItems ||
-                    BLOCK_TYPES) as BlockType[];
-            }
-        }
+        // Otherwise show all block types (for adding to main stack)
         return BLOCK_TYPES;
     };
 
     const availableBlockTypes = getAvailableBlockTypes();
-    const isAddingToNested =
-        selectedNestedIndex !== null ||
-        (selectedBlockIndex !== null &&
-            !getBlockDefinition(prayer.blocks[selectedBlockIndex]?.type)
-                ?.requiresContent);
+    const isAddingToNested = selectedNestedIndex !== null;
 
     const handleAddBlock = (type: BlockType) => {
         if (isAddingToNested && selectedBlockIndex !== null) {
@@ -78,6 +66,11 @@ export function PrayerEditor() {
         } else {
             addBlock(type);
         }
+    };
+
+    // Handler for inline add in empty collapsible blocks
+    const handleInlineAddNested = (parentIndex: number, type: BlockType) => {
+        addNestedBlock(parentIndex, type);
     };
 
     return (
@@ -259,6 +252,43 @@ export function PrayerEditor() {
                                 />
                             ) : (
                                 <div className="nested-blocks-container">
+                                    {/* Show inline add UI if empty */}
+                                    {(!block.items ||
+                                        block.items.length === 0) && (
+                                        <div className="nested-block-add-container">
+                                            <p
+                                                style={{
+                                                    fontSize: "0.9rem",
+                                                    opacity: 0.7,
+                                                    marginBottom: "0.75rem",
+                                                }}
+                                            >
+                                                Add items to this container:
+                                            </p>
+                                            <div className="nested-block-add-buttons">
+                                                {(
+                                                    blockDef as any
+                                                )?.allowedItems?.map(
+                                                    (allowedType: string) => (
+                                                        <button
+                                                            key={allowedType}
+                                                            className="sidebar-button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleInlineAddNested(
+                                                                    index,
+                                                                    allowedType as BlockType,
+                                                                );
+                                                            }}
+                                                        >
+                                                            + {allowedType}
+                                                        </button>
+                                                    ),
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Nested blocks */}
                                     {block.items?.map(
                                         (nestedBlock, nestedIndex) => (

@@ -213,6 +213,11 @@
     font-size: 0.95rem;
 }
 
+.nested-block-add-container {
+    padding: 1rem;
+    text-align: center;
+}
+
 .nested-block-add-buttons {
     display: flex;
     flex-wrap: wrap;
