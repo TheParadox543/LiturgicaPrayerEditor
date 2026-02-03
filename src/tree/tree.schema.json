@@ -1,0 +1,86 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Tree Configuration Schema",
+    "description": "Schema for validating tree configuration structure with support for hierarchical routes, patterns, and dynamic node generation",
+    "type": "object",
+    "required": ["route"],
+    "properties": {
+        "route": {
+            "type": "string",
+            "description": "The route identifier for this node"
+        },
+        "children": {
+            "type": "array",
+            "description": "Child nodes in the tree hierarchy",
+            "items": {
+                "$ref": "#"
+            }
+        },
+        "pattern": {
+            "type": "object",
+            "description": "Pattern definition for generating multiple child nodes dynamically",
+            "required": ["type"],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": ["list", "hours"],
+                    "description": "Type of pattern: 'list' for custom items, 'hours' for liturgical hours"
+                },
+                "items": {
+                    "type": "array",
+                    "description": "List of items to generate routes for (required for 'list' type)",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "exclude": {
+                    "type": "array",
+                    "description": "Items to exclude from generation (optional for 'hours' type)",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "routeFormat": {
+                    "type": "string",
+                    "description": "Format string for generated routes, use {item} as placeholder"
+                }
+            },
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "list"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["items", "routeFormat"]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "type": {
+                                "const": "hours"
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["routeFormat"]
+                    }
+                }
+            ]
+        },
+        "alwaysInclude": {
+            "type": "boolean",
+            "description": "Whether this node should always be included in the tree"
+        },
+        "fileExtension": {
+            "type": "string",
+            "description": "File extension for nodes in this subtree (e.g., '.mp3', '.json')",
+            "pattern": "^\\."
+        }
+    },
+    "additionalProperties": false
+}

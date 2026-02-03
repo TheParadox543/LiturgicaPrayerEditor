@@ -1,0 +1,610 @@
+{
+    "route": "malankara",
+    "children": [
+        {
+            "route": "commonPrayers",
+            "children": [
+                { "route": "lords" },
+                { "route": "mary" },
+                { "route": "kauma" },
+                { "route": "trisagionSyriac" },
+                { "route": "niceneCreed" },
+                { "route": "praiseOfAngels" },
+                { "route": "praiseOfCherubims" },
+                { "route": "morningPraise" },
+                { "route": "cyclicPrayers" }
+            ]
+        },
+        {
+            "route": "dailyPrayers",
+            "children": [
+                {
+                    "route": "homePrayers",
+                    "pattern": {
+                        "type": "list",
+                        "items": ["vespers", "matins", "prime"],
+                        "routeFormat": "homePrayers_{item}"
+                    }
+                },
+                {
+                    "route": "sleeba",
+                    "pattern": {
+                        "type": "hours",
+                        "exclude": ["none"],
+                        "routeFormat": "sleeba_{item}"
+                    }
+                },
+                {
+                    "route": "kyamtha",
+                    "pattern": {
+                        "type": "hours",
+                        "routeFormat": "kyamtha_{item}"
+                    }
+                },
+                {
+                    "route": "sheema",
+                    "children": [
+                        {
+                            "route": "sheema_monday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_monday_{item}"
+                            }
+                        },
+                        {
+                            "route": "sheema_tuesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_tuesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "sheema_wednesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_wednesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "sheema_thursday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_thursday_{item}"
+                            }
+                        },
+                        {
+                            "route": "sheema_friday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_friday_{item}"
+                            }
+                        },
+                        {
+                            "route": "sheema_saturday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "sheema_saturday_{item}"
+                            }
+                        },
+                        {
+                            "route": "promiyon",
+                            "children": [
+                                { "route": "sheemaMary" },
+                                { "route": "sheemaSleeba" },
+                                { "route": "sheemaSaints" },
+                                { "route": "sheemaApostle" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "route": "sacraments",
+            "children": [
+                {
+                    "route": "qurbana",
+                    "children": [
+                        { "route": "qurbana_preparation" },
+                        { "route": "qurbana_partOne" },
+                        { "route": "qurbana_chapterOne" },
+                        { "route": "qurbana_chapterTwo" },
+                        { "route": "qurbana_chapterThree" },
+                        { "route": "qurbana_chapterFour" },
+                        { "route": "qurbana_chapterFive" },
+                        { "route": "qurbana_conclusion" },
+                        {
+                            "route": "qurbanaSongs",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "sanctification",
+                                    "dedication",
+                                    "revelationToZachariah",
+                                    "annunciationToStMary",
+                                    "visitationToElizabeth",
+                                    "birthOfJohnTheBaptist",
+                                    "revelationToJoseph",
+                                    "sundayBeforeChristmas",
+                                    "yeldho",
+                                    "glorificationOfStMary",
+                                    "massacreOfTheInfants",
+                                    "afterChristmas",
+                                    "circumcision",
+                                    "epiphany",
+                                    "beheadingOfStJohnTheBaptist",
+                                    "feastOfStStephen",
+                                    "afterEpiphany",
+                                    "mayaltho",
+                                    "ninevehLent",
+                                    "allDepartedPriests",
+                                    "allDepartedFaithful",
+                                    "kothine",
+                                    "lepersSunday",
+                                    "palsySunday",
+                                    "canaaniteWoman",
+                                    "midLent",
+                                    "crippledWoman",
+                                    "blindMan",
+                                    "forthiethFriday",
+                                    "lazarusSaturday",
+                                    "memoryOfFortyMartyrs",
+                                    "palmSunday",
+                                    "maundyThursday",
+                                    "saturdayOfAnnunciation",
+                                    "easter",
+                                    "hevorae",
+                                    "newSunday",
+                                    "afterNewSunday",
+                                    "ascension",
+                                    "pentecost",
+                                    "goldenFriday",
+                                    "feastOfApostlesFast",
+                                    "transfiguration",
+                                    "assumption",
+                                    "afterAssumption",
+                                    "feastOfHolyCross",
+                                    "afterHolyCross"
+                                ],
+                                "routeFormat": "qurbanaSongs_{item}"
+                            }
+                        }
+                    ]
+                },
+                { "route": "baptism" },
+                {
+                    "route": "wedding",
+                    "children": [
+                        { "route": "wedding_ring" },
+                        { "route": "wedding_crown" }
+                    ]
+                },
+                { "route": "houseWarming" },
+                {
+                    "route": "funeral",
+                    "children": [
+                        {
+                            "route": "funeral_men",
+                            "children": [
+                                { "route": "funeral_men_firstPart" },
+                                { "route": "funeral_men_secondPart" },
+                                { "route": "funeral_men_thirdPart" },
+                                { "route": "funeral_men_fourthPart" }
+                            ]
+                        },
+                        {
+                            "route": "funeral_women",
+                            "children": [
+                                { "route": "funeral_women_firstPart" },
+                                { "route": "funeral_women_secondPart" },
+                                { "route": "funeral_women_thirdPart" },
+                                { "route": "funeral_women_fourthPart" }
+                            ]
+                        }
+                    ]
+                },
+                { "route": "confession" },
+                { "route": "anointment" }
+            ]
+        },
+        {
+            "route": "feasts",
+            "children": [
+                {
+                    "route": "christmas",
+                    "pattern": {
+                        "type": "list",
+                        "items": [
+                            "vespers",
+                            "compline",
+                            "matins",
+                            "worshipOfCross",
+                            "prime",
+                            "terce",
+                            "sext"
+                        ],
+                        "routeFormat": "christmas_{item}"
+                    }
+                },
+                { "route": "epiphany" },
+                { "route": "reconciliationService" },
+                { "route": "halfLent" },
+                { "route": "palmSundayService" },
+                { "route": "easter" },
+                { "route": "ascension" },
+                {
+                    "route": "pentecost",
+                    "children": [
+                        { "route": "pentecost_firstPart" },
+                        { "route": "pentecost_secondPart" },
+                        { "route": "pentecost_thirdPart" }
+                    ]
+                }
+            ]
+        },
+        {
+            "route": "lent",
+            "children": [
+                {
+                    "route": "ninevehLent",
+                    "children": [
+                        {
+                            "route": "ninevehLent_monday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "ninevehLent_monday_{item}"
+                            }
+                        },
+                        {
+                            "route": "ninevehLent_tuesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "ninevehLent_tuesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "ninevehLent_wednesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "ninevehLent_wednesday_{item}"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "route": "greatLent",
+                    "children": [
+                        {
+                            "route": "greatLent_monday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "greatLent_monday_{item}"
+                            }
+                        },
+                        {
+                            "route": "greatLent_tuesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "greatLent_tuesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "greatLent_wednesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "greatLent_wednesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "greatLent_thursday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "greatLent_thursday_{item}"
+                            }
+                        },
+                        {
+                            "route": "greatLent_friday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "greatLent_friday_{item}"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "route": "passionWeek",
+                    "children": [
+                        {
+                            "route": "passionWeek_monday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "passionWeek_monday_{item}"
+                            }
+                        },
+                        {
+                            "route": "passionWeek_tuesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "passionWeek_tuesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "passionWeek_wednesday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "passionWeek_wednesday_{item}"
+                            }
+                        },
+                        {
+                            "route": "passionWeek_passover",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "passionWeek_passover_{item}"
+                            }
+                        },
+                        {
+                            "route": "passionWeek_goodFriday",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "vespers",
+                                    "compline",
+                                    "matins",
+                                    "prime",
+                                    "terce",
+                                    "procession",
+                                    "sext",
+                                    "none",
+                                    "worshipOfCross"
+                                ]
+                            }
+                        },
+                        {
+                            "route": "passionWeek_saturday",
+                            "pattern": {
+                                "type": "hours",
+                                "routeFormat": "passionWeek_saturday_{item}"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "route": "contextual",
+            "children": [
+                { "route": "benedictionSongs" },
+                { "route": "intercessionToMary" },
+                { "route": "beforeFood" },
+                { "route": "afterFood" },
+                { "route": "forSick" }
+            ]
+        },
+        {
+            "route": "specialPrayers",
+            "children": [{ "route": "memraOfAprem" }]
+        },
+        {
+            "route": "ekkaraSongs",
+            "alwaysInclude": true,
+            "fileExtension": ".mp3",
+            "children": [
+                { "route": "introduction" },
+                {
+                    "route": "ekkaraSongs_sleeba",
+                    "children": [
+                        {
+                            "route": "ekkaraSongs_sleeba_vespers",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_vespers_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_sleeba_compline",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_compline_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_sleeba_prime",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_prime_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_sleeba_terce",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_terce_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_sleeba_sext",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_sext_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_sleeba_none",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_sleeba_none_{item}"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "route": "ekkaraSongs_kyamtha",
+                    "children": [
+                        {
+                            "route": "ekkaraSongs_kyamtha_vespers",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_vespers_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_kyamtha_compline",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_compline_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_kyamtha_prime",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_prime_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_kyamtha_terce",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_terce_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_kyamtha_sext",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_sext_{item}"
+                            }
+                        },
+                        {
+                            "route": "ekkaraSongs_kyamtha_none",
+                            "pattern": {
+                                "type": "list",
+                                "items": [
+                                    "ragam1",
+                                    "ragam2",
+                                    "ragam3",
+                                    "ragam4",
+                                    "ragam5",
+                                    "ragam6",
+                                    "ragam7",
+                                    "ragam8"
+                                ],
+                                "routeFormat": "ekkaraSongs_kyamtha_none_{item}"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
