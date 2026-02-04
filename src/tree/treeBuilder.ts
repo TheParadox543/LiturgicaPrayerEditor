@@ -18,6 +18,7 @@ export interface TreeNodeConfig {
     pattern?: PatternConfig;
     alwaysInclude?: boolean;
     fileExtension?: string;
+    editorOnly?: boolean;
 }
 
 export interface TreeNode {
@@ -27,6 +28,7 @@ export interface TreeNode {
     lastModified: number | null;
     minVersionCode: number;
     children: TreeNode[];
+    editorOnly: boolean;
 }
 
 // ============================================================================
@@ -121,9 +123,13 @@ export function buildTreeFromConfig(
     config: TreeNodeConfig,
     parentRoute: string | null = null,
     ancestors: string[] = [],
+    parentEditorOnly: boolean = false,
 ): TreeNode {
     const route = config.route;
     const fileExtension = config.fileExtension || ".json";
+    // Inherit editorOnly from parent if not explicitly set
+    const editorOnly =
+        config.editorOnly !== undefined ? config.editorOnly : parentEditorOnly;
 
     // Check if node has pattern to expand
     let processedConfig = config;
@@ -163,6 +169,7 @@ export function buildTreeFromConfig(
                 childConfigWithExtension,
                 route,
                 route !== "malankara" ? [...ancestors, route] : [],
+                editorOnly, // Pass editorOnly to children
             );
             childrenNodes.push(childNode);
         }
@@ -174,6 +181,7 @@ export function buildTreeFromConfig(
             lastModified: null,
             minVersionCode: 34,
             children: childrenNodes,
+            editorOnly,
         };
     } else {
         // File node - derive filename from ancestors
@@ -216,6 +224,7 @@ export function buildTreeFromConfig(
             lastModified: null,
             minVersionCode: 34,
             children: [],
+            editorOnly,
         };
     }
 }

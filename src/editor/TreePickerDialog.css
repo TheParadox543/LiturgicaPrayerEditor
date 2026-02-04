@@ -1,0 +1,178 @@
+/* Tree Picker Dialog Overlay */
+.tree-picker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.tree-picker-dialog {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.tree-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tree-picker-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tree-picker-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.tree-picker-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tree-picker-content {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Tree Nodes */
+.tree-picker-node {
+    margin-bottom: 0.25rem;
+}
+
+.tree-picker-node-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tree-picker-expand-button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.tree-picker-expand-button:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tree-picker-spacer {
+    width: 20px;
+    height: 20px;
+}
+
+.tree-picker-node-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.tree-picker-node-button.selectable:hover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.tree-picker-node-button.non-selectable {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.tree-picker-node-button:disabled {
+    cursor: not-allowed;
+}
+
+.tree-picker-icon {
+    font-size: 1rem;
+}
+
+.tree-picker-label {
+    font-size: 0.95rem;
+}
+
+.tree-picker-children {
+    margin-left: 0;
+}
+
+/* Light mode */
+@media (prefers-color-scheme: light) {
+    .tree-picker-dialog {
+        background: #ffffff;
+        border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .tree-picker-header {
+        border-bottom-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .tree-picker-header h3 {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .tree-picker-close {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .tree-picker-close:hover {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .tree-picker-expand-button {
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .tree-picker-expand-button:hover {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .tree-picker-node-button {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.15);
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .tree-picker-node-button.selectable:hover {
+        background: rgba(102, 126, 234, 0.15);
+        border-color: rgba(102, 126, 234, 0.6);
+    }
+}

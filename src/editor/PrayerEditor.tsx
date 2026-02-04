@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { BlockType } from "../domain/models/BlockType";
 import { usePrayerEditor } from "./usePrayerEditor";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TreePickerDialog } from "./TreePickerDialog";
 import "./PrayerEditor.css";
 
 const BLOCK_TYPES: BlockType[] = [
@@ -12,6 +13,7 @@ const BLOCK_TYPES: BlockType[] = [
     "rubric",
     "cue",
     "collapsible-block",
+    "link",
 ];
 
 export function PrayerEditor() {
@@ -52,7 +54,14 @@ export function PrayerEditor() {
         deleteNestedBlock,
         moveNestedBlockUp,
         moveNestedBlockDown,
+        addLinkBlock,
+        updateBlockRoute,
     } = usePrayerEditor();
+
+    const [isPickerOpen, setIsPickerOpen] = useState(false);
+    const [linkingBlockIndex, setLinkingBlockIndex] = useState<number | null>(
+        null,
+    );
 
     // Set prayer ID from route when coming from tree navigator
     useEffect(() => {
@@ -81,6 +90,12 @@ export function PrayerEditor() {
     const isAddingToNested = selectedNestedIndex !== null;
 
     const handleAddBlock = (type: BlockType) => {
+        if (type === "link") {
+            setLinkingBlockIndex(null);
+            setIsPickerOpen(true);
+            return;
+        }
+
         if (isAddingToNested && selectedBlockIndex !== null) {
             addNestedBlock(selectedBlockIndex, type);
         } else {
@@ -257,6 +272,10 @@ export function PrayerEditor() {
                     const isSelected = selectedBlockIndex === index;
                     const blockDef = getBlockDefinition(block.type);
                     const requiresContent = blockDef?.requiresContent !== false;
+                    let requiresRoute = false;
+                    if ("requiresRoute" in blockDef) {
+                        requiresRoute = blockDef?.requiresRoute;
+                    }
 
                     return (
                         <div
@@ -290,6 +309,29 @@ export function PrayerEditor() {
                                         autoResizeTextarea(e.currentTarget)
                                     }
                                 />
+                            ) : requiresRoute ? (
+                                <div className="link-block-ui">
+                                    <div className="link-details">
+                                        <p>
+                                            <strong>Route:</strong>{" "}
+                                            {block.route || "Not selected"}
+                                        </p>
+                                        <p>
+                                            <strong>File:</strong>{" "}
+                                            {block.filename || "Not selected"}
+                                        </p>
+                                    </div>
+                                    <button
+                                        className="block-button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setLinkingBlockIndex(index);
+                                            setIsPickerOpen(true);
+                                        }}
+                                    >
+                                        Change Reference
+                                    </button>
+                                </div>
                             ) : (
                                 <div className="nested-blocks-container">
                                     {/* Show inline add UI if empty */}
@@ -519,6 +561,23 @@ export function PrayerEditor() {
                     <button onClick={saveJsonToFile}>Save JSON</button>
                 </div>
             </div>
+
+            <TreePickerDialog
+                isOpen={isPickerOpen}
+                onClose={() => {
+                    setIsPickerOpen(false);
+                    setLinkingBlockIndex(null);
+                }}
+                onSelectRoute={(route, filename) => {
+                    if (linkingBlockIndex !== null) {
+                        updateBlockRoute(linkingBlockIndex, route, filename);
+                    } else {
+                        addLinkBlock(route, filename);
+                    }
+                    setIsPickerOpen(false);
+                    setLinkingBlockIndex(null);
+                }}
+            />
         </div>
     );
 }

@@ -216,6 +216,25 @@
     margin-top: 0.25rem;
 }
 
+/* Link block specific */
+.link-block-ui {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0.5rem 0;
+}
+
+.link-details {
+    margin-bottom: 1rem;
+}
+
+.link-details p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
 /* Nested blocks */
 .nested-blocks-container {
     margin-top: 1rem;

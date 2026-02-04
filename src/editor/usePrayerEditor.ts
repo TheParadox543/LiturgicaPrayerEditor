@@ -118,6 +118,41 @@ export function usePrayerEditor() {
         }
     }
 
+    function addLinkBlock(route: string, filename: string) {
+        const newBlock: Block = { type: "link", route, filename };
+        const blocks = [...prayer.blocks];
+
+        // If a block is selected, insert after it; otherwise add at the end
+        const insertIndex =
+            selectedBlockIndex !== null
+                ? selectedBlockIndex + 1
+                : blocks.length;
+        blocks.splice(insertIndex, 0, newBlock);
+
+        setPrayer({
+            ...prayer,
+            blocks,
+        });
+
+        // Update selected index to the newly added block and clear nested selection
+        setSelectedBlockIndex(insertIndex);
+        setSelectedNestedIndex(null);
+
+        // Scroll to the newly added block after a short delay to ensure it's rendered
+        setTimeout(() => {
+            blockRefs.current[insertIndex]?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }, 100);
+    }
+
+    function updateBlockRoute(index: number, route: string, filename: string) {
+        const blocks = [...prayer.blocks];
+        blocks[index] = { ...blocks[index], route, filename };
+        setPrayer({ ...prayer, blocks });
+    }
+
     function deleteBlock(index: number) {
         const blocks = [...prayer.blocks];
         blocks.splice(index, 1);
@@ -411,5 +446,7 @@ export function usePrayerEditor() {
         deleteNestedBlock,
         moveNestedBlockUp,
         moveNestedBlockDown,
+        addLinkBlock,
+        updateBlockRoute,
     };
 }

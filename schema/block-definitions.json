@@ -75,6 +75,16 @@
                 "allowAsFirst": true,
                 "allowAsLast": true
             }
+        },
+        "link": {
+            "label": "Link",
+            "description": "Reference to another prayer",
+            "requiresContent": false,
+            "requiresRoute": true,
+            "position": {
+                "allowAsFirst": true,
+                "allowAsLast": true
+            }
         }
     }
 }

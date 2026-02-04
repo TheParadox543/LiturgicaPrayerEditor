@@ -16,6 +16,14 @@
             ]
         },
         {
+            "route": "psalms",
+            "editorOnly": true,
+            "children": [
+                { "route": "psalm51" },
+                { "route": "psalm91121" }
+            ]
+        },
+        {
             "route": "dailyPrayers",
             "children": [
                 {
