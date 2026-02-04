@@ -5,7 +5,7 @@ const prayer: Prayer = {
     schemaVersion: 1,
     id: "test",
     title: "Test Prayer",
-    blocks: [{ type: "song", content: "" }],
+    blocks: [{ type: "stanza", content: "" }],
 };
 
 console.log(validatePrayer(prayer));

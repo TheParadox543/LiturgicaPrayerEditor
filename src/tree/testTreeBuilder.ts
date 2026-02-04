@@ -35,7 +35,7 @@ async function testTreeBuilder() {
             routeFormat: "test_{item}",
             exclude: ["none"],
         };
-        const expandedHours = expandPattern(hoursPattern, "parent");
+        const expandedHours = expandPattern(hoursPattern);
         console.log(`✓ Hours pattern expanded: ${expandedHours.length} items`);
         console.log(
             `  Sample routes: ${expandedHours
@@ -49,7 +49,7 @@ async function testTreeBuilder() {
             items: ["item1", "item2", "item3"],
             routeFormat: "custom_{item}",
         };
-        const expandedList = expandPattern(listPattern, "parent");
+        const expandedList = expandPattern(listPattern);
         console.log(`✓ List pattern expanded: ${expandedList.length} items`);
         console.log(`  Routes: ${expandedList.map((c) => c.route).join(", ")}`);
 

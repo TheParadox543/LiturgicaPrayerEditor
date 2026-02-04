@@ -14,7 +14,7 @@
     top: 0;
     bottom: 0;
     width: 250px;
-    padding: 1rem;
+    padding: 4rem 1rem 1rem 1rem;
     border-right: 2px solid rgba(255, 255, 255, 0.2);
     background-color: #1a1a1a;
     overflow-y: auto;
@@ -58,6 +58,46 @@
     padding: 1rem;
     width: calc(100% - 250px);
     padding-bottom: 1rem;
+}
+
+.content-area .back-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.content-area .back-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.navigation-info {
+    background: rgba(102, 126, 234, 0.1);
+    border-left: 4px solid rgba(102, 126, 234, 0.6);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+}
+
+.navigation-info h4 {
+    margin: 0 0 0.75rem 0;
+    color: rgba(102, 126, 234, 1);
+    font-size: 1.1rem;
+}
+
+.navigation-info p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.navigation-info strong {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .prayer-details {
@@ -416,6 +456,34 @@
 
     .bottom-action-bar button {
         border: 1px solid #c0c0c0;
+    }
+
+    .navigation-info {
+        background: rgba(102, 126, 234, 0.15);
+        border-left: 4px solid rgba(102, 126, 234, 0.8);
+    }
+
+    .navigation-info h4 {
+        color: rgba(102, 126, 234, 1);
+    }
+
+    .navigation-info p {
+        color: rgba(0, 0, 0, 0.87);
+    }
+
+    .navigation-info strong {
+        color: rgba(0, 0, 0, 0.9);
+    }
+
+    .content-area .back-button {
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        color: rgba(0, 0, 0, 0.87);
+    }
+
+    .content-area .back-button:hover {
+        background: rgba(0, 0, 0, 0.1);
+        border-color: rgba(102, 126, 234, 0.6);
     }
 }
 

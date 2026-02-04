@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import type { BlockType } from "../domain/models/BlockType";
 import { usePrayerEditor } from "./usePrayerEditor";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./PrayerEditor.css";
 
 const BLOCK_TYPES: BlockType[] = [
@@ -13,6 +15,14 @@ const BLOCK_TYPES: BlockType[] = [
 ];
 
 export function PrayerEditor() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const navigationState = location.state as {
+        route?: string;
+        filename?: string;
+        language?: string;
+    } | null;
+
     const {
         prayer,
         setPrayer,
@@ -43,6 +53,16 @@ export function PrayerEditor() {
         moveNestedBlockUp,
         moveNestedBlockDown,
     } = usePrayerEditor();
+
+    // Set prayer ID from route when coming from tree navigator
+    useEffect(() => {
+        if (navigationState?.route) {
+            setPrayer((prev) => ({
+                ...prev,
+                id: navigationState.route || prev.id,
+            }));
+        }
+    }, [navigationState, setPrayer]);
 
     // Determine which block types to show based on selection
     const getAvailableBlockTypes = (): BlockType[] => {
@@ -126,7 +146,25 @@ export function PrayerEditor() {
 
             {/* Right Content Area - Uses main scroll */}
             <div className="content-area">
+                <button className="back-button" onClick={() => navigate("/")}>
+                    ← Back to Home
+                </button>
                 <h2>Prayer Editor</h2>
+
+                {/* Show navigation info if coming from tree navigator */}
+                {navigationState && (
+                    <div className="navigation-info">
+                        <h4>Creating New Prayer</h4>
+                        <p>
+                            <strong>Filename:</strong>{" "}
+                            {navigationState.filename}
+                        </p>
+                        <p>
+                            <strong>Language:</strong>{" "}
+                            {navigationState.language?.toUpperCase()}
+                        </p>
+                    </div>
+                )}
 
                 <div className="prayer-details">
                     <h3>Prayer Details</h3>
@@ -155,6 +193,8 @@ export function PrayerEditor() {
                                 setPrayer({ ...prayer, id: e.target.value })
                             }
                             className="input-field"
+                            readOnly={!!navigationState}
+                            disabled={!!navigationState}
                         />
                     </div>
                 </div>

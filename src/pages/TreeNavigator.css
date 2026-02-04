@@ -1,0 +1,321 @@
+.tree-navigator {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 2rem;
+}
+
+.tree-navigator.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+}
+
+.tree-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.tree-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tree-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.tree-controls {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 250px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: rgba(102, 126, 234, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.clear-search {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.clear-search:hover {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-button {
+    padding: 0.75rem 1.5rem;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.control-button:hover {
+    background: rgba(102, 126, 234, 0.3);
+    border-color: rgba(102, 126, 234, 0.5);
+}
+
+.tree-stats {
+    max-width: 1200px;
+    margin: 0 auto 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.tree-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    max-height: calc(100vh - 400px);
+    overflow-y: auto;
+}
+
+.tree-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tree-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.tree-content::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 4px;
+}
+
+.tree-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 0.5rem;
+}
+
+.tree-node:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tree-node.container {
+    font-weight: 500;
+}
+
+.tree-node.selected {
+    background: rgba(102, 126, 234, 0.15);
+    border-left: 3px solid rgba(102, 126, 234, 0.6);
+}
+
+.language-selector {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 8px;
+    border-left: 3px solid rgba(102, 126, 234, 0.4);
+}
+
+.language-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.language-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.language-btn:hover {
+    background: rgba(102, 126, 234, 0.35);
+    border-color: rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.language-btn:active {
+    transform: translateY(0);
+}
+
+.expand-icon {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: transform 0.2s ease;
+    display: inline-block;
+    width: 1rem;
+    text-align: center;
+}
+
+.expand-icon.expanded {
+    transform: rotate(90deg);
+}
+
+.expand-icon-spacer {
+    display: inline-block;
+    width: 1rem;
+}
+
+.node-icon {
+    font-size: 1.2rem;
+}
+
+.node-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.node-route {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.node-filename {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    font-family: "Courier New", monospace;
+}
+
+.node-count {
+    background: rgba(102, 126, 234, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.tree-children {
+    margin-left: 0;
+}
+
+@media (max-width: 768px) {
+    .tree-navigator {
+        padding: 1rem;
+    }
+
+    .back-button {
+        position: static;
+        margin-bottom: 1rem;
+    }
+
+    .tree-header h1 {
+        font-size: 2rem;
+    }
+
+    .tree-controls {
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .action-buttons {
+        width: 100%;
+    }
+
+    .control-button {
+        flex: 1;
+    }
+}

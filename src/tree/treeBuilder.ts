@@ -83,13 +83,9 @@ export async function loadTreeConfig(
 /**
  * Generate child nodes from pattern configuration.
  * @param patternConfig - Pattern configuration object
- * @param parentRoute - Route of the parent node (unused but kept for API compatibility)
  * @returns Array of child node configurations
  */
-export function expandPattern(
-    patternConfig: PatternConfig,
-    parentRoute: string,
-): TreeNodeConfig[] {
+export function expandPattern(patternConfig: PatternConfig): TreeNodeConfig[] {
     const patternType = patternConfig.type;
     const routeFormat = patternConfig.routeFormat || "{item}";
     const exclude = patternConfig.exclude || [];
@@ -132,7 +128,7 @@ export function buildTreeFromConfig(
     // Check if node has pattern to expand
     let processedConfig = config;
     if (config.pattern) {
-        const patternChildren = expandPattern(config.pattern, route);
+        const patternChildren = expandPattern(config.pattern);
         const existingChildren = config.children || [];
 
         // Inherit fileExtension to pattern children if specified

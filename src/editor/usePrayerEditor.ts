@@ -40,7 +40,7 @@ const getInitialPrayer = (): Prayer => {
     return {
         schemaVersion: 1,
         id: "testPrayer",
-        title: "Test Prayer",
+        title: "",
         blocks: [],
     };
 };
