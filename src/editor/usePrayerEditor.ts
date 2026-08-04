@@ -18,8 +18,10 @@ function getBlockDefinition(type: BlockType) {
 }
 
 const getInitialPrayer = (): Prayer => {
+    console.log("getInitialPrayer");
     try {
         const savedDraft = localStorage.getItem(DRAFT_KEY);
+        console.log("savedDraft", savedDraft);
         if (savedDraft) {
             const parsed = JSON.parse(savedDraft);
             // Validate that it has the required structure
@@ -30,6 +32,14 @@ const getInitialPrayer = (): Prayer => {
                 Array.isArray(parsed.blocks)
             ) {
                 return parsed;
+            } else {
+                console.log("Invalid draft format");
+                return {
+                    schemaVersion: 1,
+                    id: "failedLoading",
+                    title: "",
+                    blocks: [],
+                };
             }
         }
     } catch (error) {
@@ -40,7 +50,7 @@ const getInitialPrayer = (): Prayer => {
     return {
         schemaVersion: 1,
         id: "testPrayer",
-        title: "",
+        title: "Sample Title",
         blocks: [],
     };
 };
